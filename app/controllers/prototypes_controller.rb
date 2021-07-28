@@ -38,10 +38,13 @@ class PrototypesController < ApplicationController
   end
 
   def destroy
-    redirect_to action: :index unless current_user == @prototype.user
     prototype = Prototype.find(params[:id])
-    prototype.destroy
-    redirect_to root_path
+    if current_user == prototype.user
+      prototype.destroy
+      redirect_to action: :index
+    else
+      redirect_to action: :index
+    end
   end
 
   private
